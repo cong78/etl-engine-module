@@ -1,5 +1,5 @@
-## Hello World Module
-# A Helm Chart for an example Mesh for Data module
+# Hello World Module
+## A Helm Chart for an example Mesh for Data module
 
 ## Introduction
 
