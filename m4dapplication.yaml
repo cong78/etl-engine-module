@@ -1,0 +1,19 @@
+apiVersion: app.m4d.ibm.com/v1alpha1
+kind: M4DApplication
+metadata:
+  name: hello-world-module
+spec:
+  selector:
+   workloadSelector:
+     matchLabels: {}
+  appInfo:
+    purpose: copy
+    role: Data Owner
+  data:
+    - dataSetID: "{\"ServerName\":\"cocoMDS3\",\"AssetGuid\":\"ASSET_ID\"}" 
+      requirements:
+        copy:
+          required: true
+        interface:
+          protocol: m4d-arrow-flight
+          dataformat: parquet
