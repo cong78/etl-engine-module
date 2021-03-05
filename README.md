@@ -3,7 +3,7 @@
 
 ## Introduction
 
-This helm chart define a common structure to deploy a Kubernetes job for an M4D module.
+This helm chart defines a common structure to deploy a Kubernetes job for an M4D module.
 
 The configuration for the chart is in the values file.
 
