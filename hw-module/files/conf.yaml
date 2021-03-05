@@ -1,16 +1,12 @@
 {{- if .Values.copy -}}
 data:
 {{- range .Values.copy }}
-  - format: {{ .source.format }}
-    name: {{ .assetID | quote }}
+  - connection.format: {{ .source.format }}
+    connection.name: {{ .source.name | quote }}
+    connection.credentialLocation: {{ .source.connection.credentialLocation }}
     {{- if .source.connection.s3 }}
-    path: "{{ .source.connection.s3.bucket }}/{{ .source.connection.s3.object_key }}"
-    connection:
-      type: s3
-      s3:
-        endpoint_url: {{if not (contains "://" .source.connection.s3.endpoint)}}https://{{end}}{{ .source.connection.s3.endpoint }}
-        credentials:
-          secretProvider: {{ .source.credentialLocation }}
+    s3.bucket: {{ .source.connection.s3.bucket }}
+    s3.endpoint: {{ .source.connection.s3.endpoint}}
     {{- end }} 
 {{- end -}}
 {{- else -}}
