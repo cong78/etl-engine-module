@@ -18,7 +18,7 @@ The configuration for the chart is in the values file.
 ### Add Helm repository
 
 ```bash
-helm repo add cetic https://cetic.github.io/helm-charts
+helm repo add hw-module https://ghcr.io/the-mesh-for-data/hello-world-module-chart
 helm repo update
 ```
 
