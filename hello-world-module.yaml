@@ -12,7 +12,7 @@ spec:
     values:
       image.tag: latest
   flows:
-    - read
+    - copy
   capabilities:
     credentials-managed-by: secret-provider
     supportedInterfaces:
@@ -24,7 +24,7 @@ spec:
         protocol: s3
         dataformat: csv
   statusIndicators:
-    - kind: #Kubernetes job
-      successCondition: status.status == SUCCEEDED
+    - kind: Job
+      successCondition: status.status == COMPLETED
       failureCondition: status.status == FAILED
       errorMessage: status.error
