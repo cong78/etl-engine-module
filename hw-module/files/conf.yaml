@@ -1,8 +1,8 @@
 {{- if .Values.copy -}}
 data:
 {{- range .Values.copy }}
-  - connection.format: {{ .source.format }}
-    connection.name: {{ .source.name | quote }}
+  - connection.format: {{ .source.connection.format | quote }}
+    connection.name: {{ .source.connection.name | quote }}
     connection.credentialLocation: {{ .source.connection.credentialLocation }}
     {{- if .source.connection.s3 }}
     s3.bucket: {{ .source.connection.s3.bucket }}

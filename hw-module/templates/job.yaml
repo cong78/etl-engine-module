@@ -33,13 +33,16 @@ spec:
 {{ toYaml . | indent 10 }}
         {{- end }}
         volumeMounts:
-        - name: "{{ template "hw-module.fullname" . }}-config"
-          mountPath: "/etc/config"
+        - name: {{ template "hw-module.fullname" . }}-volume
+          mountPath: "/hw-module"
           readOnly: true
       volumes:
-      - name: {{ template "hw-module.fullname" . }}-config
+      - name: {{ template "hw-module.fullname" . }}-volume
         configMap:
           name: {{ template "hw-module.fullname" . }}-config
+          items:
+          - key: conf.yaml
+            path: conf.yaml
       {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

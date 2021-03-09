@@ -7,12 +7,17 @@ global:
 
 ## Module job image
 image: 
-  repository: ghcr.io/the-mesh-for-data/hello-world-module 
+  #repository: ghcr.io/the-mesh-for-data/hello-world-module
+  repository: ghcr.io/eletonia/hw-module 
   tag: latest
   pullPolicy: IfNotPresent
 
+imagePullSecrets: 
+  - name: myregistrykey
+
 # Action (copy/read)
 copy:
+- assetID: "test1"
   # Copy source
   source:
     connection:
@@ -36,7 +41,6 @@ copy:
       type: 2
       credentialLocation: /v1/m4d/dataset-creds/m4d-test-bucket
       format: csv
-
 
 nameOverride: ""
 fullnameOverride: ""

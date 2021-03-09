@@ -1,36 +1,35 @@
 #!/usr/bin/env python
 
 import os
+import yaml
+
 
 def main():
     print("\nHello World Module!")
 
     # Read config map values from volume mount
-    f = open("/hw-module/connection.name", "r")
-    connectionName = f.read()
-    f.close()
+    with open('/hw-module/conf.yaml', 'r') as stream:
+        content = yaml.load(stream)
+        for key,val in content.items():
+            if "data" in key:
+                x = val[0]
+                for k,v in x.items():
+                    if "connection.name" in k:
+                        connectionName = v
+                    if "connection.format" in k:
+                        connectionFormat = v
+                    if "connection.credentialLocation" in k:
+                        connectionCred = v
+                    if "s3.bucket" in k:
+                        s3Bucket = v
+                    if "s3.endpoint" in k:
+                        s3Endpoint = v
+
     print("\nConnection name is " + connectionName)
-
-    f = open("/hw-module/connection.format", "r")
-    connectionFormat  = f.read()
-    f.close()
     print("\nConnection format is " + connectionFormat)
-
-    f = open("/hw-module/connection.credentialLocation", "r")
-    connectionCred  = f.read()
-    f.close()
     print("\nConnection credential location is " + connectionCred)
-
-    f = open("/hw-module/s3.bucket", "r")
-    s3Bucket  = f.read()
-    f.close()
     print("\nS3 bucket is " + s3Bucket)
-
-    f = open("/hw-module/s3.endpoint", "r")
-    s3Endpoint  = f.read()
-    f.close()
     print("\nS3 endpoint is " + s3Endpoint)
-
     print ("\nCOPY SUCCEEDED")
 
 
