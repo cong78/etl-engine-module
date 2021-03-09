@@ -7,8 +7,7 @@ global:
 
 ## Module job image
 image: 
-  #repository: ghcr.io/the-mesh-for-data/hello-world-module
-  repository: ghcr.io/eletonia/hw-module 
+  repository: ghcr.io/mesh-for-data/hw-module 
   tag: latest
   pullPolicy: IfNotPresent
 
