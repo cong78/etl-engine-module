@@ -32,7 +32,7 @@ make docker-push
 ### Configure the chart
 
 - Settings can configured by editing the `values.yaml` directly.
-- Change repository in `values.yaml` to your preferred Docker image. 
+- Modify repository in `values.yaml` to your preferred Docker image. 
 - Modify copy/read action as needed with appropriate values. 
 
 ### Login to Helm registry
@@ -58,8 +58,8 @@ make helm-uninstall
 
 ## Deploy M4D application which triggers module (WIP)
 1. In `hello-world-module.yaml`:
-  * Change `spec.chart.name` to your preferred chart image.
-  * Define `flows` and `capabilities` for your module. 
+    * Change `spec.chart.name` to your preferred chart image.
+    * Define `flows` and `capabilities` for your module. 
 
 2. Deploy `M4DModule` in `m4d-system` namespace:
 ```bash
@@ -67,9 +67,9 @@ oc project m4d-system
 oc create -f hello-world-module.yaml
 ```
 3. In `m4dapplication.yaml`:
-  - Change `metadata.name` to your application name.
-  - Define `appInfo.purpose`, `appInfo.role`, and `spec.data`
-  - This ensures that a copy is triggered:
+    * Change `metadata.name` to your application name.
+    * Define `appInfo.purpose`, `appInfo.role`, and `spec.data`
+    * This ensures that a copy is triggered:
     ```yaml
     copy:
       required:true
