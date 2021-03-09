@@ -17,7 +17,7 @@ The configuration for the chart is in the values file.
 ### Modify values in Makefile
 
 In `Makefile`:
-- Change `DOCKER_USERNAME`, `DOCKER_PASSWORD`, `DOCKER_HOSTNAME`, `DOCKER_NAMESPACE`, `DOCKER_TAGNAME`, `DOCKER_IMG_NAME`, `DOCKER_CHART_IMG_NAME` to your own preferences.
+- Change `DOCKER_USERNAME`, `DOCKER_PASSWORD`, `DOCKER_HOSTNAME`, `DOCKER_NAMESPACE`, `DOCKER_TAGNAME`, `DOCKER_IMG_NAME`, and `DOCKER_CHART_IMG_NAME` to your own preferences.
 
 ### Build Docker image for Python application
 ```bash
@@ -90,6 +90,23 @@ oc project m4d-blueprints
 oc get job
 oc get pods
 ```
+If you are using the `hello-world-module` image, you should see this in the `oc logs` of your completed Pod:
+```
+$ oc logs rel1-hello-world-module-z9vnl
 
+Hello World Module!
+
+Connection name is s3
+
+Connection format is parquet
+
+Connection credential location is /v1/m4d/dataset-creds/m4d-test-bucket
+
+S3 bucket is m4d-test-bucket
+
+S3 endpoint is s3.eu-gb.cloud-object-storage.appdomain.cloud
+
+COPY SUCCEEDED
+```
 
 
