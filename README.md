@@ -11,7 +11,6 @@ The configuration for the chart is in the values file.
 
 - Kubernetes cluster 1.10+
 - Helm 3.0.0+
-- PV provisioner support in the underlying infrastructure.
 
 ## Installation
 
