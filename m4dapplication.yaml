@@ -1,13 +1,13 @@
 apiVersion: app.m4d.ibm.com/v1alpha1
 kind: M4DApplication
 metadata:
-  name: hello-world-module
+  name: hw-module-test
 spec:
   selector:
    workloadSelector:
      matchLabels: {}
   appInfo:
-    purpose: copy
+    purpose: Fraud Detection
     role: Data Owner
   data:
     - dataSetID: "{\"ServerName\":\"cocoMDS3\",\"AssetGuid\":\"ASSET_ID\"}" 
