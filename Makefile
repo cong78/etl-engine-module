@@ -1,5 +1,5 @@
 export DOCKER_USERNAME ?= eletonia
-export DOCKER_PASSWORD ?= daa5bb7a40033ef69b7d47ae7f9576549d73ad9a
+export DOCKER_PASSWORD ?= 
 export DOCKER_HOSTNAME ?= ghcr.io
 export DOCKER_NAMESPACE ?= eletonia
 export DOCKER_TAGNAME ?= latest
