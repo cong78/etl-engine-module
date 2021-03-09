@@ -18,7 +18,7 @@ The configuration for the chart is in the values file.
 ### Add Helm repository
 
 ```bash
-helm repo add hw-module https://ghcr.io/the-mesh-for-data/hello-world-module-chart
+helm repo add hw-module https://ghcr.io/eletonia/hw-module-chart
 helm repo update
 ```
 
@@ -28,10 +28,8 @@ Settings can configured by editing the `values.yaml` directly (need to download 
 
 ### Install the chart
 
-Install the job helm chart with a release name `my-release`:
-
 ```bash
-helm install my-release hw-module/job
+make helm-verify
 ```
 
 ## Uninstallation
@@ -39,7 +37,7 @@ helm install my-release hw-module/job
 To uninstall/delete the `my-release` deployment:
 
 ```bash
-helm uninstall my-release
+make helm-uninstall
 ```
 
 ## Configuration
