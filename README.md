@@ -57,16 +57,16 @@ make helm-uninstall
 ```
 
 ## Deploy M4D application which triggers module (WIP)
-- In `hello-world-module.yaml`:
+1. In `hello-world-module.yaml`:
   * Change `spec.chart.name` to your preferred chart image.
   * Define `flows` and `capabilities` for your module. 
 
-Deploy `M4DModule` in `m4d-system` namespace:
+2. Deploy `M4DModule` in `m4d-system` namespace:
 ```bash
 oc project m4d-system
 oc create -f hello-world-module.yaml
 ```
-- In `m4dapplication.yaml`:
+3. In `m4dapplication.yaml`:
   - Change `metadata.name` to your application name.
   - Define `appInfo.purpose`, `appInfo.role`, and `spec.data`
   - This ensures that a copy is triggered:
@@ -74,17 +74,17 @@ oc create -f hello-world-module.yaml
     copy:
       required:true
     ```
-- Deploy `M4DApplication` in `default` namespace:
+4.  Deploy `M4DApplication` in `default` namespace:
 ```bash
 oc project default
 oc create -f m4dapplication.yaml
 ```
-- Check if `M4DApplication` successfully deployed:
+5.  Check if `M4DApplication` successfully deployed:
 ```bash
 oc describe M4DApplication hello-world-module-test
 ```
 
-- Check if module was triggered in `m4d-blueprints`:
+6.  Check if module was triggered in `m4d-blueprints`:
 ```bash
 oc project m4d-blueprints
 oc get job
