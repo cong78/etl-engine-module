@@ -12,8 +12,7 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
-imagePullSecrets: 
-  - name: myregistrykey
+imagePullSecrets: []
 
 # Action (copy/read)
 copy:
