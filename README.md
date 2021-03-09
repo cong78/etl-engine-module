@@ -17,7 +17,7 @@ The configuration for the chart is in the values file.
 ### Add Helm repository
 
 ```bash
-helm repo add hw-module https://ghcr.io/eletonia/hw-module-chart
+helm repo add hello-world-module https://ghcr.io/eletonia/hello-world-module-chart
 helm repo update
 ```
 

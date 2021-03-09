@@ -1,4 +1,4 @@
-# Default values for hw-module job.
+# Default values for hello-world-module job.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -7,7 +7,7 @@ global:
 
 ## Module job image
 image: 
-  repository: ghcr.io/mesh-for-data/hw-module 
+  repository: ghcr.io/mesh-for-data/hello-world-module 
   tag: latest
   pullPolicy: IfNotPresent
 

@@ -1,7 +1,7 @@
 apiVersion: app.m4d.ibm.com/v1alpha1
 kind: M4DApplication
 metadata:
-  name: hw-module-test
+  name: hello-world-module-test
 spec:
   selector:
    workloadSelector:

@@ -8,7 +8,7 @@ metadata:
     version: 0.0.1  # semantic version
 spec:
   chart:
-    name: ghcr.io/mesh-for-data/hw-module-chart:latest
+    name: ghcr.io/mesh-for-data/hello-world-module-chart:latest
     values:
       image.tag: latest
   flows:

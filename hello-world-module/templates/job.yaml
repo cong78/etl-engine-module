@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "hw-module.fullname" . }}
+  name: {{ template "hello-world-module.fullname" . }}
 spec:
   template:
     spec:
@@ -10,13 +10,13 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "hw-module.serviceAccountName" . }}
+      serviceAccountName: {{ include "hello-world-module.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
-        name: {{ template "hw-module.fullname" . }}
+        name: {{ template "hello-world-module.fullname" . }}
         env:
         {{- range concat (.Values.global.environment) (.Values.environment | default list)}}
         - name: {{ .name | quote}}
@@ -33,13 +33,13 @@ spec:
 {{ toYaml . | indent 10 }}
         {{- end }}
         volumeMounts:
-        - name: {{ template "hw-module.fullname" . }}-volume
-          mountPath: "/hw-module"
+        - name: {{ template "hello-world-module.fullname" . }}-volume
+          mountPath: "/hello-world-module"
           readOnly: true
       volumes:
-      - name: {{ template "hw-module.fullname" . }}-volume
+      - name: {{ template "hello-world-module.fullname" . }}-volume
         configMap:
-          name: {{ template "hw-module.fullname" . }}-config
+          name: {{ template "hello-world-module.fullname" . }}-config
           items:
           - key: conf.yaml
             path: conf.yaml

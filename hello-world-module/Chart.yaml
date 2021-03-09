@@ -1,5 +1,5 @@
 apiVersion: v2
-name: hw-module
+name: hello-world-module
 description: A Helm chart for installing a module for Mesh for Data in Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
