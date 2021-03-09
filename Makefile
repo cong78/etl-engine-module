@@ -1,7 +1,7 @@
 export DOCKER_USERNAME ?= eletonia
 export DOCKER_PASSWORD ?= 
 export DOCKER_HOSTNAME ?= ghcr.io
-export DOCKER_NAMESPACE ?= eletonia
+export DOCKER_NAMESPACE ?= mesh-for-data
 export DOCKER_TAGNAME ?= latest
 
 DOCKER_IMG_NAME ?= hw-module
@@ -32,8 +32,7 @@ endif
 docker-rmi:
 	docker rmi ${APP_IMG} || true
 
-HELM_VALUES ?= \
-	--set hello=world1
+HELM_VALUES ?= 
 
 CHART := ${DOCKER_IMG_NAME}
 HELM_RELEASE ?= rel1-${DOCKER_IMG_NAME}
