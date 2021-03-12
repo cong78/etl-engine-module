@@ -57,14 +57,14 @@ make helm-uninstall
 ```
 
 ## Deploy M4D application which triggers module (WIP)
-1. In `hello-world-module.yaml`:
+1. In `etl-engine-module.yaml`:
     * Change `spec.chart.name` to your preferred chart image.
     * Define `flows` and `capabilities` for your module. 
 
 2. Deploy `M4DModule` in `m4d-system` namespace:
 ```bash
 oc project m4d-system
-oc create -f hello-world-module.yaml
+oc create -f etl-engine-module.yaml
 ```
 3. In `m4dapplication.yaml`:
     * Change `metadata.name` to your application name.
@@ -81,7 +81,7 @@ oc create -f m4dapplication.yaml
 ```
 5.  Check if `M4DApplication` successfully deployed:
 ```bash
-oc describe M4DApplication hello-world-module-test
+oc describe M4DApplication etl-engine-module-test
 ```
 
 6.  Check if module was triggered in `m4d-blueprints`:
@@ -90,9 +90,9 @@ oc project m4d-blueprints
 oc get job
 oc get pods
 ```
-If you are using the `hello-world-module` image, you should see this in the `oc logs` of your completed Pod:
+If you are using the `etl-engine-module` image, you should see this in the `oc logs` of your completed Pod:
 ```
-$ oc logs rel1-hello-world-module-z9vnl
+$ oc logs rel1-etl-engine-module-z9vnl
 
 Hello World Module!
 

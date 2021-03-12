@@ -1,4 +1,4 @@
-# Default values for hello-world-module job.
+# Default values for etl-engine-module job.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -7,7 +7,7 @@ global:
 
 ## Module job image
 image: 
-  repository: ghcr.io/mesh-for-data/hello-world-module 
+  repository: ghcr.io/mesh-for-data/etl-engine-module
   tag: latest
   pullPolicy: IfNotPresent
 

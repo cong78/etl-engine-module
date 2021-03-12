@@ -2,13 +2,13 @@
 apiVersion: app.m4d.ibm.com/v1alpha1
 kind: M4DModule
 metadata:
-  name: hello-world-module
+  name: etl-engine-module
   labels:
-    name: hello-world-module
+    name: etl-engine-module
     version: 0.0.1  # semantic version
 spec:
   chart:
-    name: ghcr.io/mesh-for-data/hello-world-module-chart:latest
+    name: ghcr.io/mesh-for-data/etl-engine-module-chart:latest
     values:
       image.tag: latest
   flows:

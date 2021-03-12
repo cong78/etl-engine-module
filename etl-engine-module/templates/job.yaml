@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "hello-world-module.fullname" . }}
+  name: {{ template "etl-engine-module.fullname" . }}
 spec:
   template:
     spec:
@@ -10,13 +10,13 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "hello-world-module.serviceAccountName" . }}
+      serviceAccountName: {{ include "etl-engine-module.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
-        name: {{ template "hello-world-module.fullname" . }}
+        name: {{ template "etl-engine-module.fullname" . }}
         env:
         {{- range concat (.Values.global.environment) (.Values.environment | default list)}}
         - name: {{ .name | quote}}
@@ -33,13 +33,13 @@ spec:
 {{ toYaml . | indent 10 }}
         {{- end }}
         volumeMounts:
-        - name: {{ template "hello-world-module.fullname" . }}-volume
-          mountPath: "/hello-world-module"
+        - name: {{ template "etl-engine-module.fullname" . }}-volume
+          mountPath: "/etl-engine-module"
           readOnly: true
       volumes:
-      - name: {{ template "hello-world-module.fullname" . }}-volume
+      - name: {{ template "etl-engine-module.fullname" . }}-volume
         configMap:
-          name: {{ template "hello-world-module.fullname" . }}-config
+          name: {{ template "etl-engine-module.fullname" . }}-config
           items:
           - key: conf.yaml
             path: conf.yaml

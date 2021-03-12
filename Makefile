@@ -4,8 +4,8 @@ export DOCKER_HOSTNAME ?= ghcr.io
 export DOCKER_NAMESPACE ?= mesh-for-data
 export DOCKER_TAGNAME ?= latest
 
-DOCKER_IMG_NAME ?= hello-world-module
-DOCKER_CHART_IMG_NAME ?= hello-world-module-chart
+DOCKER_IMG_NAME ?= etl-engine-module
+DOCKER_CHART_IMG_NAME ?= etl-engine-module-chart
 DOCKER_FILE ?= Dockerfile
 DOCKER_CONTEXT ?= .
 

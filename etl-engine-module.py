@@ -8,7 +8,7 @@ def main():
     print("\nHello World Module!")
 
     # Read config map values from volume mount
-    with open('/hello-world-module/conf.yaml', 'r') as stream:
+    with open('/etl-engine-module/conf.yaml', 'r') as stream:
         content = yaml.safe_load(stream)
         for key,val in content.items():
             if "data" in key:
