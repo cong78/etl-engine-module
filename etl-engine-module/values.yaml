@@ -16,6 +16,17 @@ imagePullSecrets: []
 # Action (copy/read)
 copy:
 - assetID: "test1"
+
+  #ETL Engine
+  dataStage:
+    connection:
+      name:
+      host:
+      projectName:
+      jobName:
+      credentialLocation: /v1/m4d/dataset-creds/m4d-test-bucket
+      format:
+
   # Copy source
   source:
     connection:
