@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "etl-engine-module.fullname" . }}-config
 data:
-  conf.yaml: |- 
+  conf.yaml: |-
 {{- if .Values.config_override }}
 {{ .Values.config_override  | indent 4}}
 {{- else }}

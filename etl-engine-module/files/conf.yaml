@@ -1,14 +1,19 @@
-{{- if .Values.copy -}}
+{{- $copy := .Values.copy | default dict -}}
+{{ if $copy }}
+{{- $source := $copy.source | default dict -}}
 data:
-{{- range .Values.copy }}
-  - connection.format: {{ .source.connection.format | quote }}
-    connection.name: {{ .source.connection.name | quote }}
-    connection.credentialLocation: {{ .source.connection.credentialLocation }}
-    {{- if .source.connection.s3 }}
-    s3.bucket: {{ .source.connection.s3.bucket }}
-    s3.endpoint: {{ .source.connection.s3.endpoint}}
-    {{- end }} 
-{{- end -}}
-{{- else -}}
+  - format: {{ $copy.source.format | quote }}
+    vault_credentials:
+      address: {{ $copy.source.vault.address | quote}}
+      authPath: {{ $copy.source.vault.authPath | quote}}
+      role: {{ $copy.source.vault.role }}
+      secretPath: {{ $copy.source.vault.secretPath | quote}}
+    {{- $connection := $copy.source.connection | default dict -}}
+    {{ if $connection.s3 | quote}}
+    s3.bucket: {{ $connection.s3.bucket | quote}}
+    s3.endpoint: {{ $connection.s3.endpoint | quote}}
+    {{ end }}
+    connection.name: {{ $connection.name | quote }}
+{{ else }}
 data: []
-{{- end -}}
+{{ end }}

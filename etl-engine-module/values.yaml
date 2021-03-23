@@ -1,4 +1,4 @@
-# Default values for etl-engine-module job.
+# Default values for hello-world-module job.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -6,8 +6,8 @@ global:
   environment: []
 
 ## Module job image
-image: 
-  repository: ghcr.io/mesh-for-data/etl-engine-module
+image:
+  repository: ghcr.io/cong78/etl-engine-module
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -15,41 +15,43 @@ imagePullSecrets: []
 
 # Action (copy/read)
 copy:
-- assetID: "test1"
+  - assetID: "test1"
+    # Copy source
+    source:
+      connection:
+        name: s3
+        s3:
+          bucket: m4d-test-bucket
+          endpoint: s3.eu-gb.cloud-object-storage.appdomain.cloud
+          object_key: car.data.parq
+        type: 2
+        # Vault Holds details for retrieving credentials by the modules from Vault store.
+        vault:
+          # Address is Vault address e.g. http://vault.m4d-system:8200/
+          address: http://vault.m4d-system:8200/
+          # AuthPath is the path to auth method used to login to Vault e.g. v1/auth/kubernetes/login
+          authPath:
+          # Role is the Vault role used for retrieving the credentials e.g. module
+          role: module
+          # SecretPath is the path of the secret holding the Credentials in Vault e.g. v1/m4d/dataset-creds/%7B%22asset_id%22:%20%225067b64a-67bc-4067-9117-0aff0a9963ea%22%2C%20%22catalog_id%22:%20%220fd6ff25-7327-4b55-8ff2-56cc1c934824%22%7D
+          secretPath: v1/m4d/dataset-creds/%7B%22asset_id%22:%20%225067b64a-67bc-4067-9117-0aff0a9963ea%22%2C%20%22catalog_id%22:%20%220fd6ff25-7327-4b55-8ff2-56cc1c934824%22%7D
+        format: parquet
 
-  #ETL Engine
-  dataStage:
-    connection:
-      name:
-      host:
-      projectName:
-      jobName:
-      credentialLocation: /v1/m4d/dataset-creds/m4d-test-bucket
-      format:
-
-  # Copy source
-  source:
-    connection:
-      name: s3
-      s3:
-        bucket: m4d-test-bucket
-        endpoint: s3.eu-gb.cloud-object-storage.appdomain.cloud
-        object_key: car.data.parq
-      type: 2
-      credentialLocation: /v1/m4d/dataset-creds/m4d-test-bucket
-      format: parquet
-
-  # Copy destination
-  destination:
-    connection:
-      name: s3
-      s3:
-        bucket: m4d-test-bucket
-        endpoint: s3.eu-gb.cloud-object-storage.appdomain.cloud
-        object_key: car.data.parq
-      type: 2
-      credentialLocation: /v1/m4d/dataset-creds/m4d-test-bucket
-      format: csv
+    # Copy destination
+    destination:
+      connection:
+        name: s3
+        s3:
+          bucket: m4d-test-bucket
+          endpoint: s3.eu-gb.cloud-object-storage.appdomain.cloud
+          object_key: car.data.parq
+        type: 2
+        vault:
+          address: http://vault.m4d-system:8200/
+          authPath: v1/auth/authpath/login
+          role: module
+          secretPath: v1/m4d/dataset-creds/%7B%22asset_id%22:%20%225067b64a-67bc-4067-9117-0aff0a9963ea%22%2C%20%22catalog_id%22:%20%220fd6ff25-7327-4b55-8ff2-56cc1c934824%22%7D
+        format: csv
 
 nameOverride: ""
 fullnameOverride: ""
@@ -75,7 +77,7 @@ securityContext: {}
   #   - ALL
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
-  # runAsUser: 1000
+# runAsUser: 1000
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -87,4 +89,4 @@ resources: {}
   #   memory: 128Mi
   # requests:
   #   cpu: 100m
-  #   memory: 128Mi
+#   memory: 128Mi

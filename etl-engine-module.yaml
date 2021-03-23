@@ -1,4 +1,3 @@
-  
 apiVersion: app.m4d.ibm.com/v1alpha1
 kind: M4DModule
 metadata:
@@ -8,7 +7,7 @@ metadata:
     version: 0.0.1  # semantic version
 spec:
   chart:
-    name: ghcr.io/mesh-for-data/etl-engine-module-chart:latest
+    name: ghcr.io/mesh-for-data/hello-world-module-chart:latest
     values:
       image.tag: latest
   flows:
@@ -16,15 +15,15 @@ spec:
   capabilities:
     credentials-managed-by: secret-provider
     supportedInterfaces:
-    - flow: copy
-      source:
-        protocol: s3
-        dataformat: parquet
-      sink:
-        protocol: s3
-        dataformat: csv
+      - flow: copy
+        source:
+          protocol: s3
+          dataformat: csv
+        sink:
+          protocol: s3
+          dataformat: csv
   statusIndicators:
-    - kind: Job
-      successCondition: status.status == COMPLETED
-      failureCondition: status.status == FAILED
-      errorMessage: status.error
+    - errorMessage: status.error
+      failureCondition: status.failed > 0
+      kind: Job
+      successCondition: status.succeeded > 0

@@ -4,13 +4,13 @@ metadata:
   name: etl-engine-module
 spec:
   selector:
-   workloadSelector:
-     matchLabels: {}
+    workloadSelector:
+      matchLabels: {}
   appInfo:
     purpose: Fraud Detection
     role: Data Owner
   data:
-    - dataSetID: "{\"ServerName\":\"cocoMDS3\",\"AssetGuid\":\"ASSET_ID\"}" 
+    - dataSetID: "{\"ServerName\":\"cocoMDS3\",\"AssetGuid\":\"ASSET_ID\"}"
       requirements:
         copy:
           required: true
