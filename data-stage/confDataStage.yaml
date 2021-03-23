@@ -1,0 +1,4 @@
+data:
+  - connection.dataStage.url: "https://zen-cpd-zen.apps.cpdclusterbeta3.ibmcloudpack.com/ibm/iis/api/dscdesignerapi?api={{action}}&jobName=Ingestion&projectName=test2&hostName=IS-EN-CONDUCTOR-0.EN-COND&getFullOutput=true"
+    connection.dataStage.username: cong
+    connection.dataStage.password:

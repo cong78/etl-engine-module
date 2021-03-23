@@ -1,12 +1,11 @@
 # ETL Engine Module
-## A Helm Chart for an example Mesh for Data module
 
 ## Introduction
 
 This module is used in the project of [the-mesh-for-data](https://github.com/IBM/the-mesh-for-data) for interacting with ETL engines, such as Data Stage, to schedule, run and manage the ETL jobs as a client. 
 
 ### Data Stage Integration:
-For the first integration with Data Stage, it will use the [Data Stage API](https://www.ibm.com/support/knowledgecenter/en/SSZJPZ_11.7.0/com.ibm.swg.im.iis.ds.fd.doc/topics/rest_api.html#run) to run the job and get the job status. 
+For the integration with IBM Data Stage, it will use the [Data Stage API](https://www.ibm.com/support/knowledgecenter/en/SSZJPZ_11.7.0/com.ibm.swg.im.iis.ds.fd.doc/topics/rest_api.html#run) to run the job and get the job status. 
 ## Prerequisites
 
 - Kubernetes cluster 1.10+

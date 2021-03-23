@@ -1,7 +1,7 @@
-export DOCKER_USERNAME ?= eletonia
-export DOCKER_PASSWORD ?= 
+export DOCKER_USERNAME ?= cong199178@gmail.com
+export DOCKER_PASSWORD ?=
 export DOCKER_HOSTNAME ?= ghcr.io
-export DOCKER_NAMESPACE ?= mesh-for-data
+export DOCKER_NAMESPACE ?= cong78
 export DOCKER_TAGNAME ?= latest
 
 DOCKER_IMG_NAME ?= etl-engine-module
