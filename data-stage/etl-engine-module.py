@@ -13,23 +13,23 @@ def getM4DDatasetCredentials(url, role, secretName):
     response = requests.request("GET", url, params=params)
     return response.json()
 
-    
+
 #  TODO: Method to configure the source and destination properties from m4dapplication.yaml
 def configureDSJobParameters(payload):
     print("\nConfiguring the DataStage Job source and destination properties from M4D Application instructs: ")
     str(payload)
 
     # Read config map values from volume mount
-    with open('../etl-engine-module/files/conf.yaml', 'r') as stream:
+    with open('/etl-engine-module/files/conf.yaml', 'r') as stream:
         content = yaml.safe_load(stream)
         for key, val in content.items():
             if "source" in key:
                 source = val[0]
 
                 # Source data credential from vault
-                sourceVaultPath = source["vault_credentials.address"]+source["authPath"]
+                sourceVaultPath = source["vault_credentials.address"] + source["authPath"]
                 paramsSourceVault = {'role': source["vault_credentials.role"],
-                          'secret_name': source["vault_credentials.secretPath"]}
+                                     'secret_name': source["vault_credentials.secretPath"]}
                 responseSourceVault = requests.request("GET", sourceVaultPath, params=paramsSourceVault)
 
                 # Configure source COS properties
@@ -49,7 +49,7 @@ def configureDSJobParameters(payload):
             if "destination" in key:
                 destination = val[0]
                 # Destination data credential from vault
-                destinationVaultPath = source["vault_credentials.address"]+source["authPath"]
+                destinationVaultPath = source["vault_credentials.address"] + source["authPath"]
                 paramsDestinationVault = {'role': source["vault_credentials.role"],
                                           'secret_name': source["vault_credentials.secretPath"]}
                 responseDestinationVault = requests.request("GET", destinationVaultPath, params=paramsDestinationVault)
@@ -70,15 +70,13 @@ def configureDSJobParameters(payload):
 
     return payload
 
+
 #  Method to compile the DataStage job
 def compileDSJob(urlCompile, username, password):
     print("\nCompiling the DataStage: ")
 
-    with open('parameters.json') as f:
-        payload = json.load(f)
-
     response = requests.request("GET", str(urlCompile).replace("{{action}}", "compileDSJob"), verify=False,
-                                auth=HTTPBasicAuth(username, password), data=payload)
+                                auth=HTTPBasicAuth(username, password))
     print(response.text)
 
 
@@ -86,7 +84,7 @@ def compileDSJob(urlCompile, username, password):
 def runDSJob(urlRun, username, password):
     print("\nRunning the DataStage Job: ")
 
-    with open('parametersSample.json') as f:
+    with open('parameters.json') as f:
         payload = json.load(f)
 
     configureDSJobParameters(payload)
@@ -117,7 +115,7 @@ def main():
                 connectionUsername = data["connection.dataStage.username"]
                 connectionPassword = data["connection.dataStage.password"]
 
-    compileDSJob(connectionUrlDataStage, connectionUsername, connectionPassword)
+    # compileDSJob(connectionUrlDataStage, connectionUsername, connectionPassword)
     runDSJob(connectionUrlDataStage, connectionUsername, connectionPassword)
     getDSJobStatus(connectionUrlDataStage, connectionUsername, connectionPassword)
 

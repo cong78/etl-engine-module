@@ -18,12 +18,12 @@ copy:
   # Copy source
   source:
     connection:
-        name: #s3
-        s3:
-          bucket: #m4d-test-bucket
-          endpoint: #s3.eu-gb.cloud-object-storage.appdomain.cloud
-          object_key: #car.data.parq
-        type: #2
+      name: #s3
+      s3:
+        bucket: #m4d-test-bucket
+        endpoint: #s3.eu-gb.cloud-object-storage.appdomain.cloud
+        object_key: #car.data.parq
+      type: #2
       # Vault Holds details for retrieving credentials by the modules from Vault store.
     vault:
       # Address is Vault address e.g. http://vault.m4d-system:8200/
@@ -39,12 +39,12 @@ copy:
   # Copy destination
   destination:
     connection:
-        name: #s3
-        s3:
-          bucket: #m4d-test-bucket
-          endpoint: #s3.eu-gb.cloud-object-storage.appdomain.cloud
-          object_key: #car.data.parq
-        type: #2
+      name: #s3
+      s3:
+        bucket: #m4d-test-bucket
+        endpoint: #s3.eu-gb.cloud-object-storage.appdomain.cloud
+        object_key: #car.data.parq
+      type: #2
     vault:
       address: #http://vault.m4d-system:8200/
       authPath: #v1/auth/authpath/login
@@ -76,7 +76,7 @@ securityContext: {}
   #   - ALL
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
-  # runAsUser: 1000
+# runAsUser: 1000
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -88,4 +88,4 @@ resources: {}
   #   memory: 128Mi
   # requests:
   #   cpu: 100m
-  #   memory: 128Mi
+#   memory: 128Mi
