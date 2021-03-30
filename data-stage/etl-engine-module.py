@@ -3,33 +3,82 @@ import os
 import sys
 import yaml
 import requests
+import json
 from requests.auth import HTTPBasicAuth
 
 
-#  TODO: Method to configure the source and destination properties of the predefined DataStage ingestion job
-#  Need to find out which DataStage method can be used for this configuration
-def configureDSJob(urlConfigure, credential):
-    print("\nConfiguring the DataStage Job: ")
+def getM4DDatasetCredentials(url, role, secretName):
+    params = {'role': role,
+              'secret_name': secretName}
+    response = requests.request("GET", url, params=params)
+    return response.json()
+
+    
+#  TODO: Method to configure the source and destination properties from m4dapplication.yaml
+def configureDSJobParameters(payload):
+    print("\nConfiguring the DataStage Job source and destination properties from M4D Application instructs: ")
+    str(payload)
 
     # Read config map values from volume mount
-    with open('/datastage/confDataStage.yaml', 'r') as stream:
+    with open('../etl-engine-module/files/conf.yaml', 'r') as stream:
         content = yaml.safe_load(stream)
         for key, val in content.items():
-            if "data" in key:
-                data = val[0]
-                connectionName = data["connection.name"]
-                connectionFormat = data["format"]
-                vault = data["vault_credentials"]
-                s3Bucket = data["s3.bucket"]
-                s3Endpoint = data["s3.endpoint"]
+            if "source" in key:
+                source = val[0]
+
+                # Source data credential from vault
+                sourceVaultPath = source["vault_credentials.address"]+source["authPath"]
+                paramsSourceVault = {'role': source["vault_credentials.role"],
+                          'secret_name': source["vault_credentials.secretPath"]}
+                responseSourceVault = requests.request("GET", sourceVaultPath, params=paramsSourceVault)
+
+                # Configure source COS properties
+                sourceAccessKey = responseSourceVault.get('access_key')
+                sourceSecretKey = responseSourceVault.get('secret_key')
+                sourceEndpoint = source["s3.endpoint"]
+                sourceBucket = source["s3.bucket"]
+                sourceObject = source["s3.object"]
+
+                # Replace Data Stage API payload parameters from source
+                payload.replace("SourceCosUrlValue", sourceEndpoint)
+                payload.replace("SourceCosBucketNameValue", sourceBucket)
+                payload.replace("SourceCosFileNameValue", sourceObject)
+                payload.replace("SourceCosAccessKeyValue", sourceAccessKey)
+                payload.replace("SourceCosSecretKeyValue", sourceSecretKey)
+
+            if "destination" in key:
+                destination = val[0]
+                # Destination data credential from vault
+                destinationVaultPath = source["vault_credentials.address"]+source["authPath"]
+                paramsDestinationVault = {'role': source["vault_credentials.role"],
+                                          'secret_name': source["vault_credentials.secretPath"]}
+                responseDestinationVault = requests.request("GET", destinationVaultPath, params=paramsDestinationVault)
+
+                # Configure destination COS properties
+                sourceAccessKey = responseDestinationVault.get('access_key')
+                sourceSecretKey = responseDestinationVault.get('secret_key')
+                destinationEndpoint = destination["s3.endpoint"]
+                destinationBucket = destination["s3.bucket"]
+                destinationObject = destination["s3.object"]
+
+                # Replace Data Stage API payload parameters from destination
+                payload.replace("DestinationCosUrlValue", destinationEndpoint)
+                payload.replace("DestinationCosBucketNameValue", destinationBucket)
+                payload.replace("DestinationCosFileNameValue", destinationObject)
+                payload.replace("DestinationCosAccessKey", sourceAccessKey)
+                payload.replace("DestinationCosAccessKeyValue", sourceSecretKey)
+
+    return payload
 
 #  Method to compile the DataStage job
 def compileDSJob(urlCompile, username, password):
     print("\nCompiling the DataStage: ")
 
-    response = requests.request("GET", str(urlCompile).replace("{{action}}", "compileDSJob"),
-                                verify=False, auth=HTTPBasicAuth(username, password))
+    with open('parameters.json') as f:
+        payload = json.load(f)
 
+    response = requests.request("GET", str(urlCompile).replace("{{action}}", "compileDSJob"), verify=False,
+                                auth=HTTPBasicAuth(username, password), data=payload)
     print(response.text)
 
 
@@ -37,9 +86,12 @@ def compileDSJob(urlCompile, username, password):
 def runDSJob(urlRun, username, password):
     print("\nRunning the DataStage Job: ")
 
-    response = requests.request("GET", str(urlRun).replace("{{action}}", "runDSJob"), verify=False,
-                                auth=HTTPBasicAuth(username, password))
+    with open('parametersSample.json') as f:
+        payload = json.load(f)
 
+    configureDSJobParameters(payload)
+    response = requests.request("POST", str(urlRun).replace("{{action}}", "runDSJob"), verify=False,
+                                auth=HTTPBasicAuth(username, password), data=payload)
     print(response.text)
 
 
@@ -53,9 +105,9 @@ def getDSJobStatus(urlJobStatus, username, password):
 
 
 def main():
-    print("\nETL Engine Module!")
+    print("\nRunning a ETL Engine Module of Mesh for Data!")
 
-    # Read config map values from volume mount
+    # Read Data Stage configuration values
     with open('confDataStage.yaml', 'r') as stream:
         content = yaml.safe_load(stream)
         for key, val in content.items():
@@ -69,7 +121,7 @@ def main():
     runDSJob(connectionUrlDataStage, connectionUsername, connectionPassword)
     getDSJobStatus(connectionUrlDataStage, connectionUsername, connectionPassword)
 
-    sys.exit(os.EX_OK)
 
 if __name__ == "__main__":
     main()
+    sys.exit(os.EX_OK)
