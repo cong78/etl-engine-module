@@ -27,14 +27,17 @@ def configureDSJobParameters(payload):
                 source = val[0]
 
                 # Source data credential from vault
-                sourceVaultPath = source["vault_credentials.address"] + source["authPath"]
-                paramsSourceVault = {'role': source["vault_credentials.role"],
-                                     'secret_name': source["vault_credentials.secretPath"]}
-                responseSourceVault = requests.request("GET", sourceVaultPath, params=paramsSourceVault)
+                # sourceVaultPath = source["vault_credentials.address"] + source["authPath"]
+                # paramsSourceVault = {'role': source["vault_credentials.role"],'secret_name': source["vault_credentials.secretPath"]}
+
+                #  Source data credential from secret provider
+                responseSourceSecret = requests.get(source["credentialLocation"])
+                responseSourceSecret.raise_for_status()
+                responseSource = responseSourceSecret.json()
 
                 # Configure source COS properties
-                sourceAccessKey = responseSourceVault.get('access_key')
-                sourceSecretKey = responseSourceVault.get('secret_key')
+                sourceAccessKey = responseSource.get('access_key')
+                sourceSecretKey = responseSource.get('secret_key')
                 sourceEndpoint = source["s3.endpoint"]
                 sourceBucket = source["s3.bucket"]
                 sourceObject = source["s3.object"]
@@ -49,14 +52,18 @@ def configureDSJobParameters(payload):
             if "destination" in key:
                 destination = val[0]
                 # Destination data credential from vault
-                destinationVaultPath = source["vault_credentials.address"] + source["authPath"]
-                paramsDestinationVault = {'role': source["vault_credentials.role"],
-                                          'secret_name': source["vault_credentials.secretPath"]}
-                responseDestinationVault = requests.request("GET", destinationVaultPath, params=paramsDestinationVault)
+                # destinationVaultPath = destination["vault_credentials.address"] + destination["authPath"]
+                # paramsDestinationVault = {'role': destination["vault_credentials.role"],
+                #                          'secret_name': destination["vault_credentials.secretPath"]}
+
+                #  Destination data credential from secret provider
+                responseDestinationSecret = requests.get(destination["credentialLocation"])
+                responseDestinationSecret.raise_for_status()
+                responseDestination = responseDestinationSecret.json()
 
                 # Configure destination COS properties
-                sourceAccessKey = responseDestinationVault.get('access_key')
-                sourceSecretKey = responseDestinationVault.get('secret_key')
+                destinationAccessKey = responseDestination.get('access_key')
+                destinationSecretKey = responseDestination.get('secret_key')
                 destinationEndpoint = destination["s3.endpoint"]
                 destinationBucket = destination["s3.bucket"]
                 destinationObject = destination["s3.object"]
@@ -65,8 +72,8 @@ def configureDSJobParameters(payload):
                 payload.replace("DestinationCosUrlValue", destinationEndpoint)
                 payload.replace("DestinationCosBucketNameValue", destinationBucket)
                 payload.replace("DestinationCosFileNameValue", destinationObject)
-                payload.replace("DestinationCosAccessKey", sourceAccessKey)
-                payload.replace("DestinationCosAccessKeyValue", sourceSecretKey)
+                payload.replace("DestinationCosAccessKey", destinationAccessKey)
+                payload.replace("DestinationCosAccessKeyValue", destinationSecretKey)
 
     return payload
 

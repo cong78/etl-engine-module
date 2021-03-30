@@ -24,6 +24,7 @@ copy:
         endpoint: #s3.eu-gb.cloud-object-storage.appdomain.cloud
         object_key: #car.data.parq
       type: #2
+      credentialLocation: #current implementation
       # Vault Holds details for retrieving credentials by the modules from Vault store.
     vault:
       # Address is Vault address e.g. http://vault.m4d-system:8200/
@@ -45,6 +46,7 @@ copy:
         endpoint: #s3.eu-gb.cloud-object-storage.appdomain.cloud
         object_key: #car.data.parq
       type: #2
+      credentialLocation: #current implementation
     vault:
       address: #http://vault.m4d-system:8200/
       authPath: #v1/auth/authpath/login
