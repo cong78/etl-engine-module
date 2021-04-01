@@ -20,7 +20,7 @@ def configureDSJobParameters(payload):
     str(payload)
 
     # Read config map values from volume mount
-    with open('/etl-engine-module/files/conf.yaml', 'r') as stream:
+    with open('/etl-engine-module/conf.yaml', 'r') as stream:
         content = yaml.safe_load(stream)
         for key, val in content.items():
             if "source" in key:
