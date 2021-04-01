@@ -1,0 +1,93 @@
+# Default values for hello-world-module job.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  environment: []
+
+## Module job image
+image:
+  repository: ghcr.io/cong78/etl-engine-module
+  tag: latest
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+# Action (copy/read)
+copy:
+  # Copy source
+  source:
+    connection:
+      name: object store
+      s3:
+        bucket: m4d-standard-demo-bucket-turkey
+        endpoint: s3.eu.cloud-object-storage.appdomain.cloud
+        object_key: Source_System_Bank_Transactions.csv
+      type: 2
+      credentialLocation: http://demo-secret-provider-m4d-system.apps.cpdclusterbeta4.ibmcloudpack.com/get-secret?role=demo&secret_name=%2Fv1%2Fm4d%2Fdataset-creds%2F%7B%22asset_id%22%3A+%225067b64a-67bc-4067-9117-0aff0a9963ea%22%2C+%22catalog_id%22%3A+%220fd6ff25-7327-4b55-8ff2-56cc1c934824%22%7D
+      # Vault Holds details for retrieving credentials by the modules from Vault store.
+    vault:
+      # Address is Vault address e.g. http://vault.m4d-system:8200/
+      address:
+      # AuthPath is the path to auth method used to login to Vault e.g. v1/auth/kubernetes/login
+      authPath:
+      # Role is the Vault role used for retrieving the credentials e.g. module
+      role:
+      # SecretPath is the path of the secret holding the Credentials in Vault e.g. v1/m4d/dataset-creds/%7B%22asset_id%22:%20%225067b64a-67bc-4067-9117-0aff0a9963ea%22%2C%20%22catalog_id%22:%20%220fd6ff25-7327-4b55-8ff2-56cc1c934824%22%7D
+      secretPath:
+    format: #parquet
+
+  # Copy destination
+  destination:
+    connection:
+      name: s3
+      s3:
+        bucket: ingest-cp4ded9601d5c8
+        endpoint: s3.eu.cloud-object-storage.appdomain.cloud
+        object_key: Demo Bank Data Transaction
+      type: 2
+      credentialLocation: http://demo-secret-provider-m4d-system.apps.cpdclusterbeta4.ibmcloudpack.com/get-secret?role=demo&secret_name=%2Fv1%2Fm4d%2Fdataset-creds%2F%7B%22asset_id%22%3A+%225067b64a-67bc-4067-9117-0aff0a9963ea%22%2C+%22catalog_id%22%3A+%220fd6ff25-7327-4b55-8ff2-56cc1c934824%22%7D
+    vault:
+      address: #http://vault.m4d-system:8200/
+      authPath: #v1/auth/authpath/login
+      role: #module
+      secretPath: #v1/m4d/dataset-creds/%7B%22asset_id%22:%20%225067b64a-67bc-4067-9117-0aff0a9963ea%22%2C%20%22catalog_id%22:%20%220fd6ff25-7327-4b55-8ff2-56cc1c934824%22%7D
+    format: csv
+
+nameOverride: ""
+fullnameOverride: ""
+
+## Job configurations
+backoffLimit: 4
+restartPolicy: Never
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+annotations: {}
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+# runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+#   memory: 128Mi

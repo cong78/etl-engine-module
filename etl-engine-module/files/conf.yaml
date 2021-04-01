@@ -3,7 +3,7 @@
 {{- $source := $copy.source | default dict -}}
 source:
   - format: {{ $copy.source.format | quote }}
-    credentialLocation: {{ $copy.source.credentialLocation | quote}}
+    credentialLocation: {{ $copy.source.connection.credentialLocation | quote}}
     vault_credentials:
       address: {{ $copy.source.vault.address | quote}}
       authPath: {{ $copy.source.vault.authPath | quote}}
@@ -13,11 +13,12 @@ source:
     {{ if $connection.s3 | quote}}
     s3.bucket: {{ $connection.s3.bucket | quote}}
     s3.endpoint: {{ $connection.s3.endpoint | quote}}
+    s3.object: {{ $connection.s3.object_key | quote}}
     connection.name: {{ $connection.name | quote }}
     {{ end }}
 destination:
   - format: {{ $copy.destination.format | quote }}
-    credentialLocation: {{ $copy.destination.credentialLocation | quote}}
+    credentialLocation: {{ $copy.destination.connection.credentialLocation | quote}}
     vault_credentials:
       address: {{ $copy.destination.vault.address | quote}}
       authPath: {{ $copy.destination.vault.authPath | quote}}
@@ -27,6 +28,7 @@ destination:
     {{ if $connection.s3 | quote}}
     s3.bucket: {{ $connection.s3.bucket | quote}}
     s3.endpoint: {{ $connection.s3.endpoint | quote}}
+    s3.object: {{ $connection.s3.object_key | quote}}
     connection.name: {{ $connection.name | quote }}
     {{ end }}
 {{ else }}

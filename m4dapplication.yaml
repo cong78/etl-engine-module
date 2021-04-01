@@ -15,5 +15,5 @@ spec:
         copy:
           required: true
         interface:
-          protocol: m4d-arrow-flight
-          dataformat: parquet
+          protocol: data-stage
+          dataformat: csv

@@ -34,7 +34,7 @@ def configureDSJobParameters(payload):
                 responseSourceSecret = requests.get(source["credentialLocation"])
                 responseSourceSecret.raise_for_status()
                 responseSource = responseSourceSecret.json()
-
+                print(responseSource)
                 # Configure source COS properties
                 sourceAccessKey = responseSource.get('access_key')
                 sourceSecretKey = responseSource.get('secret_key')

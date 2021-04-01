@@ -56,14 +56,14 @@ make helm-uninstall
 ```
 
 ## Deploy M4D module
-1. In your module yaml spec (`hello-world-module.yaml`):
+1. In your module yaml spec (`etl-engine-module.yaml`):
     * Change `spec.chart.name` to your preferred chart image.
     * Define `flows` and `capabilities` for your module. 
     * The Mesh for Data manager checks the `statusIndicators` provided to see if the module is ready. In this example, if the Kubernetes job completes, the status will be `succeeded` and the manager will set the module as ready. 
 
 2. Deploy `M4DModule` in `m4d-system` namespace:
 ```bash
-kubectl create -f hello-world-module.yaml -n m4d-system
+kubectl create -f etl-engine-module.yaml -n m4d-system
 ```
 ## Register data asset in Egeria and S3 bucket credentials in Vault (optional)
 1. Follow steps 3 and 4 in [this example](https://ibm.github.io/the-mesh-for-data/docs/usage/notebook-sample/) to register the data asset in the catalog and set the `ASSET_ID` environment variable
@@ -85,19 +85,19 @@ cat m4dapplication.yaml | sed "s/ASSET_ID/$ASSET_ID/g" | kubectl -n default appl
 3.  Check if `M4DApplication` successfully deployed:
 ```bash
 kubectl get m4dapplication -n default
-kubectl describe M4DApplication hello-world-module-test -n default
+kubectl describe M4DApplication etl-engine-module-test -n default
 ```
 
 4.  Check if module was triggered in `m4d-blueprints`:
 ```bash
 kubectl get blueprint -n m4d-blueprints
-kubectl describe blueprint hello-world-module-test-default -n m4d-blueprints
+kubectl describe blueprint etl-engine-module-test-default -n m4d-blueprints
 kubectl get job -n m4d-blueprints
 kubectl get pods -n m4d-blueprints
 ```
-If you are using the `hello-world-module` image, you should see this in the `kubectl logs` of your completed Pod:
+If you are using the `etl-engine-module` image, you should see this in the `kubectl logs` of your completed Pod:
 ```
-$ kubectl logs rel1-hello-world-module-x2tgs
+$ kubectl logs rel1-etl-engine-module-x2tgs
 
 Hello World Module!
 
