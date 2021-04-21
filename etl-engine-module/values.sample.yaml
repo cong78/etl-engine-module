@@ -24,7 +24,6 @@ copy:
         endpoint: s3.eu.cloud-object-storage.appdomain.cloud
         object_key: Source_System_Bank_Transactions.csv
       type: 2
-      credentialLocation: http://demo-secret-provider-m4d-system.apps.cpdclusterbeta4.ibmcloudpack.com/get-secret?role=demo&secret_name=%2Fv1%2Fm4d%2Fdataset-creds%2F%7B%22asset_id%22%3A+%225067b64a-67bc-4067-9117-0aff0a9963ea%22%2C+%22catalog_id%22%3A+%220fd6ff25-7327-4b55-8ff2-56cc1c934824%22%7D
       # Vault Holds details for retrieving credentials by the modules from Vault store.
     vault:
       # Address is Vault address e.g. http://vault.m4d-system:8200/
@@ -46,7 +45,6 @@ copy:
         endpoint: s3.eu.cloud-object-storage.appdomain.cloud
         object_key: Demo Bank Data Transaction
       type: 2
-      credentialLocation: http://demo-secret-provider-m4d-system.apps.cpdclusterbeta4.ibmcloudpack.com/get-secret?role=demo&secret_name=%2Fv1%2Fm4d%2Fdataset-creds%2F%7B%22asset_id%22%3A+%225067b64a-67bc-4067-9117-0aff0a9963ea%22%2C+%22catalog_id%22%3A+%220fd6ff25-7327-4b55-8ff2-56cc1c934824%22%7D
     vault:
       address: #http://vault.m4d-system:8200/
       authPath: #v1/auth/authpath/login
