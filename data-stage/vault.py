@@ -52,6 +52,6 @@ def get_credentials_from_vault(vault_credentials):
     logging.critical("Vault credential role is %s", str(role))
     credentials = get_raw_secret_from_vault(jwt, secret_path, vault_address, vault_auth, role)
     if not credentials:
-        logging.critical("Missing S3 credentials")
+        logging.critical("Error retrieving S3 credentials")
         return None
     return credentials['access_key'], credentials['secret_key']
