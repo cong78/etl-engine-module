@@ -5,13 +5,7 @@ import yaml
 import requests
 import json
 from requests.auth import HTTPBasicAuth
-
-
-def getM4DDatasetCredentials(url, role, secretName):
-    params = {'role': role,
-              'secret_name': secretName}
-    response = requests.request("GET", url, params=params)
-    return response.json()
+from vault import get_credentials_from_vault
 
 
 #  TODO: Method to configure the source and destination properties from m4dapplication.yaml
@@ -26,18 +20,9 @@ def configureDSJobParameters(payload):
             if "source" in key:
                 source = val[0]
 
-                # Source data credential from vault
-                # sourceVaultPath = source["vault_credentials.address"] + source["authPath"]
-                # paramsSourceVault = {'role': source["vault_credentials.role"],'secret_name': source["vault_credentials.secretPath"]}
-
-                #  Source data credential from secret provider
-                responseSourceSecret = requests.get(source["credentialLocation"])
-                responseSourceSecret.raise_for_status()
-                responseSource = responseSourceSecret.json()
-                print(responseSource)
                 # Configure source COS properties
-                sourceAccessKey = responseSource.get('access_key')
-                sourceSecretKey = responseSource.get('secret_key')
+                # Source data credential from vault
+                sourceAccessKey, sourceSecretKey = get_credentials_from_vault(source['vault_credentials'])
                 sourceEndpoint = source["s3.endpoint"]
                 sourceBucket = source["s3.bucket"]
                 sourceObject = source["s3.object"]
@@ -52,18 +37,8 @@ def configureDSJobParameters(payload):
             if "destination" in key:
                 destination = val[0]
                 # Destination data credential from vault
-                # destinationVaultPath = destination["vault_credentials.address"] + destination["authPath"]
-                # paramsDestinationVault = {'role': destination["vault_credentials.role"],
-                #                          'secret_name': destination["vault_credentials.secretPath"]}
+                destinationAccessKey, destinationSecretKey = get_credentials_from_vault(source['vault_credentials'])
 
-                #  Destination data credential from secret provider
-                responseDestinationSecret = requests.get(destination["credentialLocation"])
-                responseDestinationSecret.raise_for_status()
-                responseDestination = responseDestinationSecret.json()
-
-                # Configure destination COS properties
-                destinationAccessKey = responseDestination.get('access_key')
-                destinationSecretKey = responseDestination.get('secret_key')
                 destinationEndpoint = destination["s3.endpoint"]
                 destinationBucket = destination["s3.bucket"]
                 destinationObject = destination["s3.object"]

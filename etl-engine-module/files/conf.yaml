@@ -3,7 +3,6 @@
 {{- $source := $copy.source | default dict -}}
 source:
   - format: {{ $copy.source.format | quote }}
-    credentialLocation: {{ $copy.source.connection.credentialLocation | quote}}
     vault_credentials:
       address: {{ $copy.source.vault.address | quote}}
       authPath: {{ $copy.source.vault.authPath | quote}}
@@ -18,7 +17,6 @@ source:
     {{ end }}
 destination:
   - format: {{ $copy.destination.format | quote }}
-    credentialLocation: {{ $copy.destination.connection.credentialLocation | quote}}
     vault_credentials:
       address: {{ $copy.destination.vault.address | quote}}
       authPath: {{ $copy.destination.vault.authPath | quote}}
